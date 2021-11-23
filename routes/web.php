@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\VideoChatController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('video_chat', [VideoChatController::class, 'index']);
+    Route::post('auth/video_chat', [VideoChatController::class, 'auth']);
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
